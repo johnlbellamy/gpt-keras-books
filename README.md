@@ -1,8 +1,11 @@
 # A GPT model based on simplebooks dataset
+
+`SimpleBooks: Long-term dependency book dataset with simplifiedEnglish vocabulary for word-level language modeling` (Huyen Nguyen, 2019)
+
 ## Service in Streamlit and Docker
 ## Why Keras?
 ### The newest Keras (3.0.0) works with many platforms (jax, tensorflow, pytorch)
-### and has some great tools and libraries for GPT and transformers. 
+### and has some great tools and libraries for GPT and transformers, and NLP. 
 ## System Requirements:
 * bash
 * tested with python 3.10.10
