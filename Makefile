@@ -34,7 +34,7 @@ else
 	else
 		@echo "data directory exists"
 	endif
-	
+
 	@echo "Downloading data"
 	wget -c 'https://dldata-public.s3.us-east-2.amazonaws.com/simplebooks.zip' --directory-prefix=data
 	@echo "Done!"
