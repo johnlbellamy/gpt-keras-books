@@ -28,6 +28,13 @@ get_data:
 ifeq (, $(shell which wget))
 	@echo "wget not found. Please install wget for your OS distribution."
 else
+	ifneq (,$(wildcard data))
+		@echo "Making data directory..."
+		mkdir data
+	else
+		@echo "data directory exists"
+	endif
+	
 	@echo "Downloading data"
 	wget -c 'https://dldata-public.s3.us-east-2.amazonaws.com/simplebooks.zip' --directory-prefix=data
 	@echo "Done!"
