@@ -1,0 +1,15 @@
+---
+# Model
+embed_dim: 256
+feed_forward_dim: 256
+num_heads: 2
+num_layers: 2
+vocab_size: 20000  # Limits parameters in gpt.
+seq_len: 128
+max_len: 80
+# Training
+epochs: 5
+
+# Inference
+num_tokens_to_generate: 80
+

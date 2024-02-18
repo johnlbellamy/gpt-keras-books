@@ -1,0 +1,4 @@
+tensorflow[and-cuda]
+keras
+keras_nlp
+langchain
