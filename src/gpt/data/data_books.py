@@ -8,10 +8,10 @@ import yaml
 
 tf.random.set_seed(56)
 mirrored_strategy = tf.distribute.MirroredStrategy()
-
-
+from pathlib import Path
+config_path = str(Path(__file__).parents[1])
 class Embeddings:
-    with open("../config/data.yaml", "r") as stream:
+    with open(f"{config_path}/config/data.yaml", "r") as stream:
         try:
             config = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
@@ -33,7 +33,7 @@ class Embeddings:
 
         print("Loading training data...")
         self.text_ds = (
-            TextLineDataset("../data/simplebooks/train_small.txt")
+            TextLineDataset("../../data/simplebooks/train_small.txt")
             .batch(Embeddings.BATCH_SIZE)
             .shuffle(buffer_size=256)
         )
@@ -68,7 +68,7 @@ class Embeddings:
         return x, y
 
     def get_training_dataset(self):
-        with mirrored_strategy.scope():
-            self.text_ds = self.text_ds.map(self.prepare_lm_inputs_labels,
-                                            num_parallel_calls=tf.data.AUTOTUNE)
-            self.text_ds = self.text_ds.prefetch(tf.data.AUTOTUNE)
+        #with mirrored_strategy.scope():
+        self.text_ds = self.text_ds.map(self.prepare_lm_inputs_labels,
+                                        num_parallel_calls=tf.data.AUTOTUNE)
+        self.text_ds = self.text_ds.prefetch(tf.data.AUTOTUNE)

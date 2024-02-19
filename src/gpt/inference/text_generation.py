@@ -1,11 +1,17 @@
+import json
+
 import numpy as np
+import keras
 from keras import ops, Model
 from keras.activations import softmax
 from keras.saving import load_model
 import yaml
 import sys
 
-sys.path.append("../data")
+from pathlib import Path
+config_path = str(Path(__file__).parents[1])
+sys.path.append(f"{config_path}/data")
+sys.path.append(f"{config_path}/lib")
 from data_books import Embeddings
 
 
@@ -20,7 +26,8 @@ class TextGenerator:
         top_k: Integer, sample from the `top_k` token predictions.
         print_every: Integer, print after this many epochs.
     """
-    with open("../config/data.yaml", "r") as stream:
+    print(f"config {config_path}/config/data.yaml")
+    with open(f"{config_path}/config/data.yaml", "r") as stream:
         try:
             config = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
@@ -48,8 +55,14 @@ class TextGenerator:
         self.start_tokens: list = []
         self.print_every: int = print_every
         self.k: int = top_k
-        self.model: Model = load_model("../../bin/gpt-movies.keras")
+        #self.model: Model = load_model("../../../bin/gpt-movies.keras")
+        with open('model_config.json', 'r') as openfile:
+            # Reading from json file
+            custom_objects = json.load(openfile)
+            print(custom_objects)
 
+        self.model = keras.models.load_model("../../../bin/gpt-movies.keras",
+                                                 custom_objects=custom_objects)
     def get_vocab(self):
         """Sets the vocabulary for text generation"""
         embeddings = Embeddings()

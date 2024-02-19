@@ -7,7 +7,7 @@ from keras.losses import SparseCategoricalCrossentropy
 from lib.token_and_position_embedding import TokenAndPositionEmbedding
 from lib.transformer_block import TransformerBlock
 
-with open("../config/model_config.yaml", "r") as stream:
+with open("config/model_config.yaml", "r") as stream:
     try:
         config = yaml.safe_load(stream)
     except yaml.YAMLError as exc:

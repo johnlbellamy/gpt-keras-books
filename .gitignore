@@ -3,7 +3,7 @@ data/simplebooks.zip
 data/simplebooks
 
 # model bins
-src/bin
+bin
 # venv
 venv
 # Byte-compiled / optimized / DLL files

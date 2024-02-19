@@ -28,12 +28,12 @@ get_data:
 ifeq (, $(shell which wget))
 	@echo "wget not found. Please install wget for your OS distribution."
 else
-	ifneq (,$(wildcard data))
-		@echo "Making data directory..."
-		mkdir data
-	else
-		@echo "data directory exists"
-	endif
+ifeq (,$(wildcard data))
+	@echo "Making data directory..."
+	mkdir data
+else
+	@echo "data directory exists"
+endif
 
 	@echo "Downloading data"
 	wget -c 'https://dldata-public.s3.us-east-2.amazonaws.com/simplebooks.zip' --directory-prefix=data
@@ -48,8 +48,12 @@ clean_data:
 	cd src/gpt/data && python clean_data.py
 	@echo "Done!"
 
-dependencies:
-	python -m venv venv && source venv/bin/activate && pip install --upgrade -r base_requirements && pip install --upgrade keras
+gpu_dependencies:
+	python3 -m venv venv && source venv/bin/activate && pip install --upgrade --no-cache-dir -r gpu_base_requirements && pip install --no-cache-dir keras==3.0.0
+
+cpu_dependencies:
+	python3 -m venv venv && source venv/bin/activate && pip install --upgrade --no-cache-dir -r cpu_base_requirements && pip install --no-cache-dir keras==3.0.0
+        
 
 train:
 	source venv/bin/activate && cd src/gpt && python train.py
