@@ -9,7 +9,7 @@ seq_len: 128
 max_len: 80
 # Training
 epochs: 5
-
+batch_size: 128
 # Inference
 num_tokens_to_generate: 80
 

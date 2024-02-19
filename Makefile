@@ -10,10 +10,13 @@ help:
 	@echo
 	@echo "    clean_data: Cleans and filters data for model"
 	@echo
-	@echo "    dependencies: Creates a virtual environment and installs dependencies"
+	@echo "    cpu_dependencies: Creates a virtual environment and installs dependencies for cpus"
 	@echo
+	@echo "    gpu_dependencies: Creates a virtual envioronment and installs dependencies for gpus."
+	@ech0
 	@echo "    train: Trains gpt model on data"
 	@echo
+	@echo "    clean: Cleans artefacts generated during make use"
 	@echo "**********************************************************************"
 	@echo
 
@@ -56,7 +59,7 @@ cpu_dependencies:
         
 
 train:
-	source venv/bin/activate && cd src/gpt && python train.py
+	source venv/bin/activate && cd src/gpt && CUDA_VISIBLE_DEVICES="0,1" python train.py
 
 clean:
 	@find . -type f -name '*.pyc' -delete

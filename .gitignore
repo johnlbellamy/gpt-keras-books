@@ -1,9 +1,9 @@
 # Data
 data/simplebooks.zip
-data/simplebooks
+data/simplebooks/
 
 # model bins
-bin
+src/gpt/bin
 # venv
 venv
 # Byte-compiled / optimized / DLL files

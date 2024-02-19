@@ -21,7 +21,6 @@ if __name__ == '__main__':
 
     print("Saving half of the data for model training.")
     with open("../../../data/simplebooks/train_small.txt", "w+") as file:
-        for line in lines[0:935649]:
+        for line in lines:
             file.write(line)
     print("Done!")
-

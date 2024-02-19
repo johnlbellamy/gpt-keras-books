@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 import string
 from tensorflow.data import TextLineDataset
@@ -8,9 +9,12 @@ import yaml
 
 tf.random.set_seed(56)
 mirrored_strategy = tf.distribute.MirroredStrategy()
-from pathlib import Path
 config_path = str(Path(__file__).parents[1])
+data_path = str(Path(__file__).parents[3])
+
+
 class Embeddings:
+    print(f"{config_path}")
     with open(f"{config_path}/config/data.yaml", "r") as stream:
         try:
             config = yaml.safe_load(stream)
@@ -18,7 +22,8 @@ class Embeddings:
             print(exc)
 
     BATCH_SIZE = config.get("batch_size")
-    MIN_STRING_LEN = config.get("min_string_length")  # Strings shorter than this will be discarded
+    # Strings shorter than this will be discarded
+    MIN_STRING_LEN = config.get("min_string_length")
     SEQ_LEN = config.get("seq_len")
     VOCAB_SIZE = config.get("vocab_size")
     MAX_LEN = config.get("max_len")
@@ -26,14 +31,13 @@ class Embeddings:
     def __init__(self):
         self.text_ds: TextLineDataset = None
         self.vectorize_layer: TextVectorization = None
-        self.vocab: list = None
+        self.vocab: list = []
 
     def prepare_raw_data(self):
         """Builds the training and validation datasets"""
-
         print("Loading training data...")
         self.text_ds = (
-            TextLineDataset("../../data/simplebooks/train_small.txt")
+            TextLineDataset(f"{data_path}/data/simplebooks/train_small.txt")
             .batch(Embeddings.BATCH_SIZE)
             .shuffle(buffer_size=256)
         )
@@ -47,13 +51,14 @@ class Embeddings:
     def create_vectorize_layer(self):
         """Create a vectorization layer and adapt it to the text"""
         self.vectorize_layer = TextVectorization(
-            standardize=Embeddings.custom_standardization,
+            standardize="lower_and_strip_punctuation",
             max_tokens=Embeddings.VOCAB_SIZE - 1,
             output_mode="int",
             output_sequence_length=Embeddings.MAX_LEN + 1,
         )
         self.vectorize_layer.adapt(self.text_ds)
-        self.vocab = self.vectorize_layer.get_vocabulary()  # To get words back from token indices
+        # To get words back from token indices
+        self.vocab = self.vectorize_layer.get_vocabulary()
 
     def prepare_lm_inputs_labels(self, text: str) -> tuple:
         """
@@ -68,7 +73,7 @@ class Embeddings:
         return x, y
 
     def get_training_dataset(self):
-        #with mirrored_strategy.scope():
+        # with mirrored_strategy.scope():
         self.text_ds = self.text_ds.map(self.prepare_lm_inputs_labels,
                                         num_parallel_calls=tf.data.AUTOTUNE)
         self.text_ds = self.text_ds.prefetch(tf.data.AUTOTUNE)

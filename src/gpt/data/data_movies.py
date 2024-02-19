@@ -9,6 +9,7 @@ import random
 tf.random.set_seed(56)
 mirrored_strategy = tf.distribute.MirroredStrategy()
 
+
 class Embeddings:
     with open("../config/data.yaml", "r") as stream:
         try:
@@ -16,7 +17,8 @@ class Embeddings:
         except yaml.YAMLError as exc:
             print(exc)
 
-    MIN_STRING_LEN = config.get("min_string_length")  # Strings shorter than this will be discarded
+    # Strings shorter than this will be discarded
+    MIN_STRING_LEN = config.get("min_string_length")
     SEQ_LEN = config.get("seq_len")
     VOCAB_SIZE = config.get("vocab_size")
     MAX_LEN = config.get("max_len")
@@ -65,7 +67,8 @@ class Embeddings:
             output_sequence_length=Embeddings.MAX_LEN + 1,
         )
         self.vectorize_layer.adapt(self.text_ds)
-        self.vocab = self.vectorize_layer.get_vocabulary()  # To get words back from token indices
+        # To get words back from token indices
+        self.vocab = self.vectorize_layer.get_vocabulary()
 
     def prepare_lm_inputs_labels(self, text: str) -> tuple:
         """

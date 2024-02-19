@@ -1,4 +1,4 @@
-# A GPT model based on simplebooks dataset
+# (in progress) A GPT model based on simplebooks dataset
 
 `SimpleBooks: Long-term dependency book dataset with simplifiedEnglish vocabulary for word-level language modeling` (Huyen Nguyen, 2019)
 

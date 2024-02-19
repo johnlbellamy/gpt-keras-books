@@ -7,7 +7,11 @@ from keras.losses import SparseCategoricalCrossentropy
 from lib.token_and_position_embedding import TokenAndPositionEmbedding
 from lib.transformer_block import TransformerBlock
 
-with open("config/model_config.yaml", "r") as stream:
+from pathlib  import Path
+
+config_path = str(Path(__file__).parents[0])
+
+with open(f"{config_path}/config/model_config.yaml", "r") as stream:
     try:
         config = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
@@ -18,11 +22,6 @@ EMBED_DIM = config.get("embed_dim")
 NUM_HEADS = config.get("num_heads")
 FEED_FORWARD_DIM = config.get("feed_forward_dim")
 MAX_LEN = config.get("max_len")
-
-embed_dim = 256  # Embedding size for each token
-num_heads = 2  # Number of attention heads
-feed_forward_dim = 256  # Hidden layer size in feed forward network inside transformer
-
 
 def build_gpt() -> Model:
     """Returns a keras model"""
