@@ -5,30 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aadbe841-9fc3-4ace-b2eb-8cd57ddd9bc0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docker/app/requirements" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gpt/lib/test_api.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/Dockerfile.gpu" beforeDir="false" afterPath="$PROJECT_DIR$/docker/Dockerfile.gpu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/app/config/model_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/config/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/app/cpu_base_requirements" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/app/gpu_base_requirements" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/app/lib/generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/lib/generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/app/lib/gpt.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/lib/gpt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/app/lib/prompt.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/lib/prompt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker/app/lib/text_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/lib/text_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scratch.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/scratch.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/config/data.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/config/model_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/config/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/data/data_books.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/data/data_books.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/data/data_movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/data/data_movies.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gpt/gpt.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/gpt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/scratch.ipynb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gpt/text_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/text_generation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -66,6 +65,72 @@
       <recent name="$PROJECT_DIR$/docker/app/config" />
     </key>
   </component>
+  <component name="RunManager" selected="Python.text_generation">
+    <configuration name="clean" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="clean" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="test_api" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="test_api" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="test_api" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="gpt-keras-books" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/gpt/lib" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/gpt/lib/test_api.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="text_generation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="gpt-keras-books" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/gpt" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/gpt/text_generation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.text_generation" />
+        <item itemvalue="Python.test_api" />
+        <item itemvalue="Makefile Target.test_api" />
+        <item itemvalue="Makefile Target.clean" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -75,7 +140,7 @@
       <option name="presentableId" value="Default" />
       <updated>1708365844203</updated>
       <workItem from="1708365845396" duration="198000" />
-      <workItem from="1708449589293" duration="11208000" />
+      <workItem from="1708449589293" duration="14835000" />
     </task>
     <servers />
   </component>
@@ -84,5 +149,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/gpt_keras_books$text_generation.coverage" NAME="text_generation Coverage Results" MODIFIED="1708463374451" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/gpt" />
+    <SUITE FILE_PATH="coverage/gpt_keras_books$test_api.coverage" NAME="test_api Coverage Results" MODIFIED="1708462140110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/gpt/lib" />
   </component>
 </project>

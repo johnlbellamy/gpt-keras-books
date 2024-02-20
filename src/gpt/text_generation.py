@@ -110,14 +110,17 @@ class TextGenerator:
 
         tokens_generated = [x for x in tokens_generated if x and x != " " and x != ""]
         tokens_generated = list(np.unique(tokens_generated))
-        txt = " ".join(
-            [self.detokenize(_) for _ in prompt_tokens + tokens_generated]
-        )
+        generated_txt_list = [self.detokenize(_) for _ in tokens_generated if self.detokenize(_) != "[UNK]"]
+        generated_txt_list = list(np.unique(generated_txt_list))
+        prompt_txt_list = [self.detokenize(_) for _ in prompt_tokens if self.detokenize(_) != "[UNK]"]
+        txt = " ".join(prompt_txt_list + generated_txt_list)
+        txt = txt.replace("  ", " ")
+        txt = txt.replace("   ", " ")
         return txt
 
 
 if __name__ == '__main__':
-    prompt = "what happened to david at the navy is"
+    prompt = "the sea was green and angry"
     # prompt = "the movie beetlejuice is"
     max_tokens = 20
     text_gen = TextGenerator(max_tokens=max_tokens)

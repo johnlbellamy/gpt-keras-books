@@ -98,13 +98,14 @@ class TextGenerator:
             tokens_generated.append(sample_token)
             prompt_tokens.append(sample_token)
             num_tokens_generated = len(tokens_generated)
-
         tokens_generated = [x for x in tokens_generated if x and x != " " and x != ""]
-        tokens_generated = list(set(tokens_generated))
-        txt = " ".join(
-            [self.detokenize(_) for _ in prompt_tokens + tokens_generated]
-        )
-
+        tokens_generated = list(np.unique(tokens_generated))
+        generated_txt_list = [self.detokenize(_) for _ in tokens_generated if self.detokenize(_) != "[UNK]"]
+        generated_txt_list = list(np.unique(generated_txt_list))
+        prompt_txt_list = [self.detokenize(_) for _ in prompt_tokens if self.detokenize(_) != "[UNK]"]
+        txt = " ".join(prompt_txt_list + generated_txt_list)
+        txt = txt.replace("  ", " ")
+        txt = txt.replace("   ", " ")
         return txt
 
 

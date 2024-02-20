@@ -2,7 +2,6 @@ from lib.prompt import Prompt
 from lib.generator import generate
 from fastapi import FastAPI
 import uvicorn
-import asyncio
 from keras import Model
 from lib.gpt import build_gpt
 
@@ -11,9 +10,8 @@ model: Model
 
 
 @app.post("/generate/")
-async def generate(prompt: str) -> dict:
-    futures = [generate(prompt, model)]
-    gen = await asyncio.gather(*futures)
+async def generate_text(prompt: Prompt) -> dict:
+    gen = generate(prompt=prompt.prompt, model=model)
     return {"response": gen}
 
 

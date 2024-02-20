@@ -13,8 +13,12 @@ help:
 	@echo "    cpu_dependencies: Creates a virtual environment and installs dependencies for cpus"
 	@echo
 	@echo "    gpu_dependencies: Creates a virtual envioronment and installs dependencies for gpus."
-	@ech0
+	@echo
 	@echo "    train: Trains gpt model on data"
+	@echo
+	@echo "    run_api: Runs the api on local machine"
+	@echo
+	@echo "    test_api: Tests the api with a prompt (the sea is green and angry)"
 	@echo
 	@echo "    clean: Cleans artefacts generated during make use"
 	@echo "**********************************************************************"
@@ -60,6 +64,12 @@ cpu_dependencies:
 
 train:
 	source venv/bin/activate && cd src/gpt && CUDA_VISIBLE_DEVICES="0,1" python train.py
+
+run_api:
+	sudo docker run -p 5600:5600 --gpus all johnb340/book-gpt:v1
+
+test_api:
+	venv/bin/python src/gpt/lib/test_api.py
 
 clean:
 	@find . -type f -name '*.pyc' -delete

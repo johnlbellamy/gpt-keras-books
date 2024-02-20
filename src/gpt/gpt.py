@@ -3,11 +3,11 @@ from keras.layers import (Input,
 import yaml
 from keras import Model
 from keras.losses import SparseCategoricalCrossentropy
-
+from keras.optimizers import Adam
 from lib.token_and_position_embedding import TokenAndPositionEmbedding
 from lib.transformer_block import TransformerBlock
 
-from pathlib  import Path
+from pathlib import Path
 
 config_path = str(Path(__file__).parents[0])
 
@@ -23,6 +23,7 @@ NUM_HEADS = config.get("num_heads")
 FEED_FORWARD_DIM = config.get("feed_forward_dim")
 MAX_LEN = config.get("max_len")
 
+
 def build_gpt() -> Model:
     """Returns a keras model"""
     inputs = Input(shape=(MAX_LEN,), dtype="int32")
@@ -33,8 +34,9 @@ def build_gpt() -> Model:
     outputs = Dense(VOCAB_SIZE)(x)
     model = Model(inputs=inputs, outputs=[outputs, x])
     loss_fn = SparseCategoricalCrossentropy(from_logits=True)
+    optimizer = Adam(learning_rate=0.005)
     model.compile(
-        "adam",
+        optimizer,
         loss=[loss_fn, None]
     )  # No loss and optimization based on word embeddings from transformer block
     return model
