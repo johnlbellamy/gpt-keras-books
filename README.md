@@ -16,6 +16,9 @@
 * Keras 3
 * Tensorflow 2.15.0
 * keras_nlp
+* Flask
+* Uvicorn
+* Pydantic
 
 ### To build artefacts from scratch continue below. 
 ### Scroll down for docker instructions and running app without building model.

@@ -4,14 +4,17 @@ USER root
 RUN mkdir /serving
 ADD docker/app/ /serving/app 
 RUN mkdir -p /serving/app/bin
-COPY  src/gpt/bin/gpt-books.keras /serving/app/lib
-COPY  src/gpt/config/data.yaml /serving/app/config
+COPY  src/gpt/bin/gpt-books.weights.h5 /serving/app/bin
+COPY  src/gpt/bin/model.json /serving/app/bin
+RUN true
+COPY  src/gpt/config/config.yaml /serving/app/config
+RUN true
 COPY  src/gpt/config/vocab.json /serving/app/config
 COPY  src/gpt/lib/token_and_position_embedding.py /serving/app/lib
-COPY  src/gpt/gpt.py /serving/app/lib
 COPY  src/gpt/lib/transformer_block.py /serving/app/lib
 WORKDIR /serving/app
-RUN apt-get update && apt-get install -y python-venv
+RUN apt-get update
 
-RUN python3 -m venv venv && source venv/bin/activate && pip install --upgrade --no-cache-dir -r gpu_base_requirements && pip install --no-cache-dir keras==3.0.0
-CMD ["source venv/bin/activate", "python", "app.py"]
+RUN python3 -m venv venv && venv/bin/pip install --upgrade --no-cache-dir -r requirements && venv/bin/pip install --no-cache-dir keras==3.0.0
+
+CMD ["venv/bin/python", "app.py"]

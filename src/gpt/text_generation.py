@@ -26,7 +26,7 @@ class TextGenerator:
         top_k: Integer, sample from the `top_k` token predictions.
         print_every: Integer, print after this many epochs.
     """
-    with open(f"{config_path}/config/data.yaml", "r") as stream:
+    with open(f"{config_path}/config/config.yaml", "r") as stream:
         try:
             config = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
@@ -108,6 +108,8 @@ class TextGenerator:
             prompt_tokens.append(sample_token)
             num_tokens_generated = len(tokens_generated)
 
+        tokens_generated = [x for x in tokens_generated if x and x != " " and x != ""]
+        tokens_generated = list(np.unique(tokens_generated))
         txt = " ".join(
             [self.detokenize(_) for _ in prompt_tokens + tokens_generated]
         )
@@ -115,7 +117,7 @@ class TextGenerator:
 
 
 if __name__ == '__main__':
-    prompt = "the navy is"
+    prompt = "what happened to david at the navy is"
     # prompt = "the movie beetlejuice is"
     max_tokens = 20
     text_gen = TextGenerator(max_tokens=max_tokens)

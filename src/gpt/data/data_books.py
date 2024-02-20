@@ -15,7 +15,7 @@ data_path = str(Path(__file__).parents[3])
 
 class Embeddings:
     print(f"{config_path}")
-    with open(f"{config_path}/config/data.yaml", "r") as stream:
+    with open(f"{config_path}/config/config.yaml", "r") as stream:
         try:
             config = yaml.safe_load(stream)
         except yaml.YAMLError as exc:

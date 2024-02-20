@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="aadbe841-9fc3-4ace-b2eb-8cd57ddd9bc0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gpt-keras-books.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gpt-keras-books.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/inference/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/inference/inference.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/inference/model_config.bak.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/inference/model_config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/inference/text_generation.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/train.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker/app/requirements" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/Dockerfile.gpu" beforeDir="false" afterPath="$PROJECT_DIR$/docker/Dockerfile.gpu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/app/config/model_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/config/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/app/cpu_base_requirements" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/app/gpu_base_requirements" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/app/lib/generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/lib/generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/app/lib/gpt.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/lib/gpt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/app/lib/prompt.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/lib/prompt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/app/lib/text_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/lib/text_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scratch.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/scratch.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/config/data.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/config/model_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/config/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/data/data_books.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/data/data_books.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/data/data_movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/data/data_movies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/gpt.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/gpt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/text_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/text_generation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,23 +37,35 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2cb2E3DputsSN0MD34p2LDSML1F" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/johnb/Projects/github/gpt-keras-books/docker/app/config",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docker/app/config" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -52,10 +75,14 @@
       <option name="presentableId" value="Default" />
       <updated>1708365844203</updated>
       <workItem from="1708365845396" duration="198000" />
+      <workItem from="1708449589293" duration="11208000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

@@ -1,15 +1,13 @@
+from keras import Model
 from lib.text_generator import TextGenerator
 
 
-
-model = build_gpt()
-model.load_weights("gpt-books.weights.h5")
-model.summary()
-
-TEXT_GEN = TextGenerator(model=model,
-                         max_tokens=10)
-
-async def generate(prompt):
-    prompt_tokens = TEXT_GEN.get_start_tokens(prompt=prompt)
-    prompt_tokens = [x for x in prompt_tokens if x ]
-    return TEXT_GEN.generate(prompt_tokens=prompt_tokens)
+def generate(prompt: str, model: Model):
+    print(f"Received: {prompt}")
+    text_gen = TextGenerator(model=model,
+                             max_tokens=10)
+    prompt_tokens = text_gen.get_start_tokens(prompt=prompt)
+    prompt_tokens = [x for x in prompt_tokens if x]
+    gen_text = text_gen.generate(prompt_tokens=prompt_tokens)
+    print("Got text!")
+    return gen_text

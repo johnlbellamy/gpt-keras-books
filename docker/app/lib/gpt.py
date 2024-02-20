@@ -11,7 +11,7 @@ from pathlib  import Path
 
 config_path = str(Path(__file__).parents[1])
 
-with open(f"../config/model_config.yaml", "r") as stream:
+with open(f"/serving/app/config/config.yaml", "r") as stream:
     try:
         config = yaml.safe_load(stream)
     except yaml.YAMLError as exc:

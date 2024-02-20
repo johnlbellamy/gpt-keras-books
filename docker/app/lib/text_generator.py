@@ -8,10 +8,6 @@ from keras.saving import load_model
 import yaml
 
 
-from pathlib import Path
-
-
-
 class TextGenerator:
     """A class to generate text from a trained model.
     1. Feed some starting prompt to the model
@@ -23,7 +19,7 @@ class TextGenerator:
         top_k: Integer, sample from the `top_k` token predictions.
         print_every: Integer, print after this many epochs.
     """
-    with open(f"config/data.yaml", "r") as stream:
+    with open(f"/serving/app/config/config.yaml", "r") as stream:
         try:
             config = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
@@ -43,13 +39,12 @@ class TextGenerator:
             top_k: int = 10,
     ):
         """
-        @type print_every: int
         @type top_k: int
         @type max_tokens: int
-        @tpye model: Model
+        @ype model: Model
         """
 
-        with open(f"config/vocab.json", "r") as vocab_file:
+        with open(f"/serving/app/config/vocab.json", "r") as vocab_file:
             self.vocab: [] = json.load(vocab_file)
         self.word_to_index: dict = self.get_word_to_index()
         self.max_tokens: int = max_tokens
@@ -104,9 +99,12 @@ class TextGenerator:
             prompt_tokens.append(sample_token)
             num_tokens_generated = len(tokens_generated)
 
+        tokens_generated = [x for x in tokens_generated if x and x != " " and x != ""]
+        tokens_generated = list(set(tokens_generated))
         txt = " ".join(
             [self.detokenize(_) for _ in prompt_tokens + tokens_generated]
         )
+
         return txt
 
 

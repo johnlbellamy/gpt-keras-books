@@ -1,8 +1,0 @@
----
-# Data
-batch_size: 128
-min_string_length: 512  # Strings shorter than this will be discarded
-seq_len: 128  # Length of training sequences, in tokens
-vocab_size: 20000
-max_len: 80
-
