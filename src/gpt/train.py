@@ -24,8 +24,11 @@ if __name__ == '__main__':
     model = build_gpt()
     model.summary()
     model.fit(embeddings.text_ds,
-              epochs=25,
+              epochs=50,
               steps_per_epoch=len(list(embeddings.text_ds.as_numpy_iterator()))//128)
 
     print("Saving model")
+    model_json = model.to_json()
+    with open("bin/model.json", "w") as json_file:
+        json_file.write(model_json)
     model.save_weights("bin/gpt-books.weights.h5", overwrite=True)

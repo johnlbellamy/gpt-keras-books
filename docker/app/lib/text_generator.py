@@ -1,18 +1,15 @@
-from gpt import build_gpt
-from data.data_books import Embeddings
+from lib.gpt import build_gpt
 import json
 
 import numpy as np
-import keras
-import keras_nlp
-from keras import ops, Model
+from keras import ops
 from keras.activations import softmax
 from keras.saving import load_model
 import yaml
-import sys
+
 
 from pathlib import Path
-config_path = str(Path(__file__).parents[0])
+
 
 
 class TextGenerator:
@@ -26,7 +23,7 @@ class TextGenerator:
         top_k: Integer, sample from the `top_k` token predictions.
         print_every: Integer, print after this many epochs.
     """
-    with open(f"{config_path}/config/data.yaml", "r") as stream:
+    with open(f"config/data.yaml", "r") as stream:
         try:
             config = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
@@ -41,6 +38,7 @@ class TextGenerator:
 
     def __init__(
             self,
+            model,
             max_tokens: int,
             top_k: int = 10,
     ):
@@ -48,19 +46,17 @@ class TextGenerator:
         @type print_every: int
         @type top_k: int
         @type max_tokens: int
+        @tpye model: Model
         """
 
-        with open(f"{config_path}/config/vocab.json", "r") as vocab_file:
+        with open(f"config/vocab.json", "r") as vocab_file:
             self.vocab: [] = json.load(vocab_file)
         self.word_to_index: dict = self.get_word_to_index()
         self.max_tokens: int = max_tokens
         self.start_tokens: list = []
         self.k: int = top_k
 
-        self.model = build_gpt()
-        self.model.load_weights(
-            filepath=f"{config_path}/bin/gpt-books.weights.h5")
-        self.model.summary()
+        self.model = model
 
     def sample_from(self, logits):
         """Get sample from model"""
@@ -115,9 +111,9 @@ class TextGenerator:
 
 
 if __name__ == '__main__':
-    prompt = "the navy is"
+    prompt = "david went to school at"
     # prompt = "the movie beetlejuice is"
-    max_tokens = 20
+    max_tokens = 10
     text_gen = TextGenerator(max_tokens=max_tokens)
     prompt_tokens = text_gen.get_start_tokens(prompt=prompt)
     print(text_gen.generate(prompt_tokens=prompt_tokens))

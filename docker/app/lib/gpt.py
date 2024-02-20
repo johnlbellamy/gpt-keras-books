@@ -9,9 +9,9 @@ from lib.transformer_block import TransformerBlock
 
 from pathlib  import Path
 
-config_path = str(Path(__file__).parents[0])
+config_path = str(Path(__file__).parents[1])
 
-with open(f"{config_path}/config/model_config.yaml", "r") as stream:
+with open(f"../config/model_config.yaml", "r") as stream:
     try:
         config = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
@@ -35,6 +35,6 @@ def build_gpt() -> Model:
     loss_fn = SparseCategoricalCrossentropy(from_logits=True)
     model.compile(
         "adam",
-        loss=[loss_fn, None]
+        loss=[loss_fn, None],
     )  # No loss and optimization based on word embeddings from transformer block
     return model

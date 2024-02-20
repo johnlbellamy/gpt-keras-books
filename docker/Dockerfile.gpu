@@ -2,10 +2,16 @@ FROM tensorflow/tensorflow:2.15.0-gpu
 
 USER root
 RUN mkdir /serving
-ADD app  /serving 
-RUN mkdir /serving/app/bin
-ADD  ../src/gpt/bin/gpt-books.keras /serving/app/bin
+ADD docker/app/ /serving/app 
+RUN mkdir -p /serving/app/bin
+COPY  src/gpt/bin/gpt-books.keras /serving/app/lib
+COPY  src/gpt/config/data.yaml /serving/app/config
+COPY  src/gpt/config/vocab.json /serving/app/config
+COPY  src/gpt/lib/token_and_position_embedding.py /serving/app/lib
+COPY  src/gpt/gpt.py /serving/app/lib
+COPY  src/gpt/lib/transformer_block.py /serving/app/lib
 WORKDIR /serving/app
-RUN apt update
+RUN apt-get update && apt-get install -y python-venv
 
-RUN pip install --upgrade --no-cache-dir -r requirements && pip install --no-cache-dir keras==3.0.0
+RUN python3 -m venv venv && source venv/bin/activate && pip install --upgrade --no-cache-dir -r gpu_base_requirements && pip install --no-cache-dir keras==3.0.0
+CMD ["source venv/bin/activate", "python", "app.py"]

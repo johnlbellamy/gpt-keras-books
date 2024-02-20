@@ -1,4 +1,4 @@
-tensorflow[and-cuda]
+tensorflow
 keras
 keras_nlp
 langchain
