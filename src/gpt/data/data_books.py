@@ -13,7 +13,7 @@ config_path = str(Path(__file__).parents[1])
 data_path = str(Path(__file__).parents[3])
 
 
-class Embeddings:
+class Encodings:
     print(f"{config_path}")
     with open(f"{config_path}/config/config.yaml", "r") as stream:
         try:
@@ -38,7 +38,7 @@ class Embeddings:
         print("Loading training data...")
         self.text_ds = (
             TextLineDataset(f"{data_path}/data/simplebooks/train_small.txt")
-            .batch(Embeddings.BATCH_SIZE)
+            .batch(Encodings.BATCH_SIZE)
             .shuffle(buffer_size=256)
         )
 
@@ -52,9 +52,9 @@ class Embeddings:
         """Create a vectorization layer and adapt it to the text"""
         self.vectorize_layer = TextVectorization(
             standardize="lower_and_strip_punctuation",
-            max_tokens=Embeddings.VOCAB_SIZE - 1,
+            max_tokens=Encodings.VOCAB_SIZE - 1,
             output_mode="int",
-            output_sequence_length=Embeddings.MAX_LEN + 1,
+            output_sequence_length=Encodings.MAX_LEN + 1,
         )
         self.vectorize_layer.adapt(self.text_ds)
         # To get words back from token indices

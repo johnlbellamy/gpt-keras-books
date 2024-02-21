@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aadbe841-9fc3-4ace-b2eb-8cd57ddd9bc0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/gpt/lib/test_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gpt/text_generation2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/app/lib/text_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/lib/text_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scratch.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/scratch.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/app/config/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker/app/config/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/config/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/config/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/config/vocab.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/config/vocab.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/data/data_books.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/data/data_books.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gpt/gpt.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/gpt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gpt/scratch.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/lib/token_and_position_embedding.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/lib/token_and_position_embedding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gpt/lib/transformer_block.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/lib/transformer_block.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gpt/text_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/text_generation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gpt/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gpt/train.py" afterDir="false" />
     </list>
@@ -51,7 +51,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/johnb/Projects/github/gpt-keras-books/docker/app/config",
+    "last_opened_file_path": "/home/johnb/Projects/github/gpt-keras-books/src/gpt/lib",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -62,7 +62,12 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/gpt/lib" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/docker/app/config" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/gpt" />
     </key>
   </component>
   <component name="RunManager" selected="Python.text_generation">
@@ -140,7 +145,7 @@
       <option name="presentableId" value="Default" />
       <updated>1708365844203</updated>
       <workItem from="1708365845396" duration="198000" />
-      <workItem from="1708449589293" duration="14835000" />
+      <workItem from="1708449589293" duration="24192000" />
     </task>
     <servers />
   </component>

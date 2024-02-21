@@ -18,10 +18,10 @@ with open(f"{config_path}/config/config.yaml", "r") as stream:
         print(exc)
 
 VOCAB_SIZE = config.get("vocab_size")
-EMBED_DIM = config.get("embed_dim")
-NUM_HEADS = config.get("num_heads")
-FEED_FORWARD_DIM = config.get("feed_forward_dim")
-MAX_LEN = config.get("max_len")
+EMBED_DIM = config.get("embed_dim")  # 256
+NUM_HEADS = config.get("num_heads")  # 2
+FEED_FORWARD_DIM = config.get("feed_forward_dim")  # 256
+MAX_LEN = config.get("max_len")  # 80
 
 
 def build_gpt() -> Model:
@@ -34,7 +34,7 @@ def build_gpt() -> Model:
     outputs = Dense(VOCAB_SIZE)(x)
     model = Model(inputs=inputs, outputs=[outputs, x])
     loss_fn = SparseCategoricalCrossentropy(from_logits=True)
-    optimizer = Adam(learning_rate=0.005)
+    optimizer = Adam(learning_rate=0.0005)
     model.compile(
         optimizer,
         loss=[loss_fn, None]

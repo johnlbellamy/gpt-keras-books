@@ -19,10 +19,12 @@ class TextGenerator:
     """A class to generate text from a trained model.
     1. Feed some starting prompt to the model
     2. Predict probabilities for the next token
-    3. Sample the next token and add it to the next input
+    3. Sample the next token and add it to the next input1
 
-    @param max_tokens: Integer, the number of tokens to be generated after prompt.
-    @param top_k: Integer, sample from the `top_k` token predictions.
+    Arguments:
+        max_tokens: Integer, the number of tokens to be generated after prompt.
+        top_k: Integer, sample from the `top_k` token predictions.
+        print_every: Integer, print after this many epochs.
     """
     with open(f"{config_path}/config/config.yaml", "r") as stream:
         try:
@@ -31,6 +33,8 @@ class TextGenerator:
             print(exc)
 
     BATCH_SIZE = config.get("batch_size")
+    # Strings shorter than this will be discarded
+    MIN_STRING_LEN = config.get("min_string_length")
     SEQ_LEN = config.get("seq_len")
     VOCAB_SIZE = config.get("vocab_size")
     MAX_LEN = config.get("max_len")
@@ -41,6 +45,7 @@ class TextGenerator:
             top_k: int = 10,
     ):
         """
+        @type print_every: int
         @type top_k: int
         @type max_tokens: int
         """
@@ -56,15 +61,36 @@ class TextGenerator:
         self.model.load_weights(
             filepath=f"{config_path}/bin/gpt-books.weights.h5")
         self.model.summary()
+        self.sampler = keras_nlp.samplers.TopPSampler()
 
-    def sample_from(self, logits):
+    '''def sample_from(self, logits):
         """Get sample from model"""
         logits, indices = ops.top_k(logits, k=self.k, sorted=True)
         indices = np.asarray(indices).astype("int32")
-        indices = np.unique(indices)
         preds = softmax(ops.expand_dims(logits, 0))[0]
         preds = np.asarray(preds).astype("float32")
         return np.random.choice(indices, p=preds)
+    '''
+
+    def next(self, prompt, cache, index):
+        pad_len = TextGenerator.MAX_LEN - len(prompt)
+        sample_index = len(prompt) - 1
+        if pad_len < 0:
+            prompt = prompt[:TextGenerator.MAX_LEN]
+            sample_index = TextGenerator.MAX_LEN - 1
+        elif pad_len > 0:
+            prompt = prompt + [0] * pad_len
+        else:
+            prompt = prompt
+        prompt = np.array([prompt])
+
+        print(f"arrray shape: {np.shape(prompt)}")
+        #logits = self.model(x)[:, index - 1, :]
+        logits, _ = self.model.predict(prompt, verbose=-1)
+        # Ignore hidden states for now; only needed for contrastive search.
+        hidden_states = None
+        print(np.shape(logits[0][sample_index]))
+        return logits[0], hidden_states, cache
 
     def detokenize(self, number):
         """gets word from token number"""
@@ -85,7 +111,7 @@ class TextGenerator:
     def generate(self, prompt_tokens: list, logs=None) -> str:
         """Generates text from book gpt model"""
         prompt_tokens = [_ for _ in prompt_tokens]
-        num_tokens_generated = 0
+        '''num_tokens_generated = 0
         tokens_generated = []
         while num_tokens_generated <= self.max_tokens:
             pad_len = TextGenerator.MAX_LEN - len(prompt_tokens)
@@ -98,21 +124,26 @@ class TextGenerator:
             else:
                 x = prompt_tokens
             x = np.array([x])
-            y, _ = self.model.predict(x, verbose=-1)
-            sample_token = self.sample_from(y[0][sample_index])
+            #y, _ = self.model.predict(x, verbose=-1)
+            #sample_token = self.sample_from(y[0][sample_index])
+            sample_token = self.sample_from(prompt_token=x)
+
             tokens_generated.append(sample_token)
             prompt_tokens.append(sample_token)
-            num_tokens_generated = len(tokens_generated)
-
-        tokens_generated = [x for x in tokens_generated if x and x != " " and x != ""]
+            num_tokens_generated = len(tokens_generated)'''
+        tokens_generated = self.sampler(
+            next=self.next,
+            prompt=prompt_tokens
+        )
+        """tokens_generated = [x for x in tokens_generated if x and x != " " and x != ""]
         tokens_generated = list(np.unique(tokens_generated))
         generated_txt_list = [self.detokenize(_) for _ in tokens_generated if self.detokenize(_) != "[UNK]"]
         generated_txt_list = list(np.unique(generated_txt_list))
         prompt_txt_list = [self.detokenize(_) for _ in prompt_tokens if self.detokenize(_) != "[UNK]"]
         txt = " ".join(prompt_txt_list + generated_txt_list)
         txt = txt.replace("  ", " ")
-        txt = txt.replace("   ", " ")
-        return txt
+        txt = txt.replace("   ", " ")"""
+        return None
 
 
 if __name__ == '__main__':

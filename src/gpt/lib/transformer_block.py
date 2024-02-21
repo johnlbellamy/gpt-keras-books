@@ -13,8 +13,9 @@ def causal_attention_mask(batch_size, n_dest, n_src, dtype):
     This prevents flow of information from future tokens to current token.
     1's in the lower triangle, counting from the lower right corner.
     @param n_src: int
-    @type n_dest: int
-    @type batch_size: int
+    @param n_dest: int
+    @param batch_size: int
+    @param dtype: Object
     """
     i = ops.arange(n_dest)[:, None]
     j = ops.arange(n_src)
@@ -30,7 +31,7 @@ def causal_attention_mask(batch_size, n_dest, n_src, dtype):
 class TransformerBlock(Layer):
     def __init__(self, embed_dim, num_heads, ff_dim, rate=0.1, **kwargs):
         super().__init__()
-        self.att = MultiHeadAttention(num_heads, embed_dim)
+        self.att = MultiHeadAttention(num_heads, embed_dim)  # if query = key = value, head is self-attention
         self.ffn = Sequential(
             [
                 Dense(ff_dim, activation="relu"),

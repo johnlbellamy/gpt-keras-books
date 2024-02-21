@@ -4,12 +4,12 @@ embed_dim: 256
 feed_forward_dim: 256
 num_heads: 2
 num_layers: 2
-vocab_size: 20000  # Limits parameters in gpt.
+vocab_size: 50000  # Limits parameters in gpt.
 seq_len: 128
 max_len: 80
 # Training
 epochs: 5
-batch_size: 128
+batch_size: 64
 # Inference
 num_tokens_to_generate: 80
 min_string_length: 512  # Strings shorter than this will be discarded
