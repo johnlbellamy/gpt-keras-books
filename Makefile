@@ -31,7 +31,26 @@ else
 	@echo "Data not found. Run 'make get_data' to download and unzip data."
 endif
 
-get_data:
+get_movie_data:
+ifeq (, $(shell which curl))
+	@echo "curl not found. Please install wget for your OS distribution."
+else
+ifeq (,$(wildcard data))
+	@echo "Making data directory..."
+	mkdir data
+else
+	@echo "data directory exists"
+endif
+
+	@echo "Downloading data"
+	cd data && curl -O https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz
+	@echo "Done!"
+	@echo "Extracting data"
+	cd data && tar -xf aclImdb_v1.tar.gz
+	@echo "Done! Use'make dependencies' to install dependencies"
+endif
+
+get_book_data:
 ifeq (, $(shell which wget))
 	@echo "wget not found. Please install wget for your OS distribution."
 else
@@ -50,7 +69,7 @@ endif
 	@echo "Done! Use'make dependencies' to install dependencies"
 endif
 
-clean_data:
+clean_book_data:
 	@echo "Cleaning data"
 	cd src/gpt/data && python clean_data.py
 	@echo "Done!"

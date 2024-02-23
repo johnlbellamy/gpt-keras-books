@@ -9,9 +9,11 @@ import random
 tf.random.set_seed(56)
 mirrored_strategy = tf.distribute.MirroredStrategy()
 
+CONFIG_PATH = "../../"
 
-class Embeddings:
-    with open("../config/config.yaml", "r") as stream:
+
+class Encodings:
+    with open(f"config/config.yaml", "r") as stream:
         try:
             config = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
@@ -33,12 +35,14 @@ class Embeddings:
         # The dataset contains each review in a separate text file
         # The text files are present in four different folders
         # Create a list all files
+
+        print(os.getcwd())
         filenames = []
         directories = [
-            "../data/aclImdb/train/pos",
-            "../data/aclImdb/train/neg",
-            "../data/aclImdb/test/pos",
-            "../data/aclImdb/test/neg",
+            f"{CONFIG_PATH}data/aclImdb/train/pos",
+            f"{CONFIG_PATH}data/aclImdb/train/neg",
+            f"{CONFIG_PATH}data/aclImdb/test/pos",
+            f"{CONFIG_PATH}data/aclImdb/test/neg",
         ]
         for dir in directories:
             for f in os.listdir(dir):
@@ -49,22 +53,16 @@ class Embeddings:
         random.shuffle(filenames)
         text_ds = TextLineDataset(filenames)
         text_ds = text_ds.shuffle(buffer_size=256)
-        self.text_ds = text_ds.batch(Embeddings.BATCH_SIZE)
+        self.text_ds = text_ds.batch(Encodings.BATCH_SIZE)
 
-    @staticmethod
-    def custom_standardization(input_string):
-        """Remove html line-break tags and handle punctuation"""
-        lowercased = tf_strings.lower(input_string)
-        stripped_html = tf_strings.regex_replace(lowercased, "<br />", " ")
-        return tf_strings.regex_replace(stripped_html, f"([{string.punctuation}])", r" \1")
 
     def create_vectorize_layer(self):
         """Create a vectorization layer and adapt it to the text"""
         self.vectorize_layer = TextVectorization(
-            standardize=Embeddings.custom_standardization,
-            max_tokens=Embeddings.VOCAB_SIZE - 1,
+            standardize="lower_and_strip_punctuation",
+            max_tokens=Encodings.VOCAB_SIZE - 1,
             output_mode="int",
-            output_sequence_length=Embeddings.MAX_LEN + 1,
+            output_sequence_length=Encodings.MAX_LEN + 1,
         )
         self.vectorize_layer.adapt(self.text_ds)
         # To get words back from token indices

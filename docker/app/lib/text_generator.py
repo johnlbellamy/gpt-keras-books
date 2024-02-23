@@ -1,69 +1,117 @@
+import string
+
+from keras import Model
+
 from lib.gpt import build_gpt
 import json
-
 import numpy as np
-from keras import ops
-from keras.activations import softmax
-from keras.saving import load_model
+import keras_nlp
+
 import yaml
+from keras_nlp.src.backend import ops
+from keras_nlp.src.backend import random
+from pathlib import Path
+
+config_path = "/serving/app"
 
 
 class TextGenerator:
     """A class to generate text from a trained model.
     1. Feed some starting prompt to the model
     2. Predict probabilities for the next token
-    3. Sample the next token and add it to the next input1
-
-    Arguments:
-        max_tokens: Integer, the number of tokens to be generated after prompt.
-        top_k: Integer, sample from the `top_k` token predictions.
-        print_every: Integer, print after this many epochs.
+    3. Sample the next token and add it to the next input
+    @param k: Integer, sample from the `top_k` token predictions.
+    @param p: Selects probabilities greater than this value
+    @param model: Model which runs the predictions
     """
-    with open(f"/serving/app/config/config.yaml", "r") as stream:
+    with open(f"{config_path}/config/config.yaml", "r") as stream:
         try:
             config = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     BATCH_SIZE = config.get("batch_size")
-    # Strings shorter than this will be discarded
-    MIN_STRING_LEN = config.get("min_string_length")
     SEQ_LEN = config.get("seq_len")
     VOCAB_SIZE = config.get("vocab_size")
     MAX_LEN = config.get("max_len")
 
     def __init__(
             self,
-            model,
-            max_tokens: int,
-            top_k: int = 10,
+            k: int = 10,
+            p: float = 50.0,
+            model: Model = None
     ):
         """
-        @type top_k: int
-        @type max_tokens: int
-        @ype model: Model
+        @type k: int
+        @type p: int
+        @type model: Model
         """
 
-        with open(f"/serving/app/config/vocab.json", "r") as vocab_file:
+        self.p = p
+        self.model = model
+        self.seed_generator = None
+        with open(f"{config_path}/config/vocab.json", "r") as vocab_file:
             self.vocab: [] = json.load(vocab_file)
         self.word_to_index: dict = self.get_word_to_index()
-        self.max_tokens: int = max_tokens
         self.start_tokens: list = []
-        self.k: int = top_k
+        self.k = k
+        self.sampler = keras_nlp.samplers.TopPSampler()
+        self.seen = []
 
-        self.model = model
+    @staticmethod
+    def remove_punctuation(input_string):
+        translator = str.maketrans("", "", string.punctuation)
+        clean_string = input_string.translate(translator)
+        return clean_string
 
-    def sample_from(self, logits):
-        """Get sample from model"""
-        logits, indices = ops.top_k(logits, k=self.k, sorted=True)
-        indices = np.asarray(indices).astype("int32")
-        preds = softmax(ops.expand_dims(logits, 0))[0]
-        preds = np.asarray(preds).astype("float32")
-        return np.random.choice(indices, p=preds)
+    def get_top_p(self, probabilities, sample_index):
+        """Return a Top P sample of logits"""
+        sorted_preds, sorted_indices = ops.top_k(
+            probabilities[0][sample_index], k=self.k, sorted=True
+        )
+        # Calculate cumulative probability distribution.
+        cumulative_probabilities = ops.cumsum(sorted_preds, axis=-1)
+
+        # Create a mask for the tokens to keep.
+        keep_mask = cumulative_probabilities <= self.p
+        keep_mask = np.array([keep_mask])
+        # Shift to include the last token that exceed p.
+        shifted_keep_mask = ops.concatenate(
+            [ops.ones_like(keep_mask[:, :1]), keep_mask[:, :-1]], axis=-1
+        )
+        # Filter out unmasked tokens and sample from filtered distribution.
+        output_probabilities = ops.where(
+            shifted_keep_mask,
+            sorted_preds,
+            ops.zeros(ops.shape(sorted_preds), dtype=sorted_preds.dtype),
+        )
+        sorted_next_token = random.categorical(
+            ops.log(output_probabilities),
+            1,
+            seed=self.seed_generator,
+            dtype="int32",
+        )
+        output = ops.take_along_axis(np.array([sorted_indices]), sorted_next_token, axis=-1)
+        squeezed = int(output.numpy()[0][0])
+        if squeezed and squeezed not in self.seen:
+            self.seen.append(squeezed)
+            return squeezed
+        else:
+            # If word is in seen, then run again
+            return self.get_top_p(probabilities=probabilities,
+                                  sample_index=sample_index)
 
     def detokenize(self, number):
         """gets word from token number"""
-        return self.vocab[number]
+        if isinstance(number, int):
+            try:
+                res = self.vocab[number]
+                if res:
+                    return res
+                else:
+                    raise IndexError
+            except IndexError:
+                print("Key not found")
 
     def get_word_to_index(self):
         """ Tokenize starting prompt"""
@@ -79,10 +127,9 @@ class TextGenerator:
 
     def generate(self, prompt_tokens: list, logs=None) -> str:
         """Generates text from book gpt model"""
-        prompt_tokens = [_ for _ in prompt_tokens]
         num_tokens_generated = 0
         tokens_generated = []
-        while num_tokens_generated <= self.max_tokens:
+        while num_tokens_generated <= self.k:
             pad_len = TextGenerator.MAX_LEN - len(prompt_tokens)
             sample_index = len(prompt_tokens) - 1
             if pad_len < 0:
@@ -93,26 +140,30 @@ class TextGenerator:
             else:
                 x = prompt_tokens
             x = np.array([x])
-            y, _ = self.model.predict(x, verbose=-1)
-            sample_token = self.sample_from(y[0][sample_index])
+            probabilities, _ = self.model.predict(x, verbose=-1)
+            sample_token = self.get_top_p(probabilities, sample_index)
+
             tokens_generated.append(sample_token)
             prompt_tokens.append(sample_token)
             num_tokens_generated = len(tokens_generated)
-        tokens_generated = [x for x in tokens_generated if x and x != " " and x != ""]
-        tokens_generated = list(np.unique(tokens_generated))
-        generated_txt_list = [self.detokenize(_) for _ in tokens_generated if self.detokenize(_) != "[UNK]"]
-        generated_txt_list = list(np.unique(generated_txt_list))
-        prompt_txt_list = [self.detokenize(_) for _ in prompt_tokens if self.detokenize(_) != "[UNK]"]
-        txt = " ".join(prompt_txt_list + generated_txt_list)
-        txt = txt.replace("  ", " ")
-        txt = txt.replace("   ", " ")
-        return txt
+
+        final_prompt_tokens = [x for x in prompt_tokens if x]
+        prompt_txt_list = [self.detokenize(_) for _ in final_prompt_tokens if self.detokenize(_) != "[UNK]"]
+        prompt_txt_list = [x for x in prompt_txt_list if x and x != " " and x != ""]
+        generated_text = " ".join(prompt_txt_list)
+        generated_text = generated_text.replace("  ", " ")
+        generated_text = generated_text.replace("   ", " ")
+        return generated_text
 
 
 if __name__ == '__main__':
-    prompt = "david went to school at"
-    # prompt = "the movie beetlejuice is"
-    max_tokens = 10
-    text_gen = TextGenerator(max_tokens=max_tokens)
+    prompt = "david did not like west point because"
+    prompt_clean = TextGenerator.remove_punctuation(prompt)
+    prompt_clean = prompt_clean.replace('\n', "")
+    prompt_clean = prompt_clean.replace("\n", "")
+    prompt_clean = prompt_clean.lower()
+    top_k = 30
+    text_gen = TextGenerator(k=top_k)
     prompt_tokens = text_gen.get_start_tokens(prompt=prompt)
-    print(text_gen.generate(prompt_tokens=prompt_tokens))
+    txt = text_gen.generate(prompt_tokens)
+    print(f"Top P search generated text: \n{txt}\n")

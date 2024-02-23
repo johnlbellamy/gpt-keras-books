@@ -7,7 +7,7 @@ from keras.losses import SparseCategoricalCrossentropy
 from lib.token_and_position_embedding import TokenAndPositionEmbedding
 from lib.transformer_block import TransformerBlock
 
-from pathlib  import Path
+from pathlib import Path
 
 config_path = str(Path(__file__).parents[1])
 
@@ -22,6 +22,7 @@ EMBED_DIM = config.get("embed_dim")
 NUM_HEADS = config.get("num_heads")
 FEED_FORWARD_DIM = config.get("feed_forward_dim")
 MAX_LEN = config.get("max_len")
+
 
 def build_gpt() -> Model:
     """Returns a keras model"""

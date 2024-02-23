@@ -34,7 +34,7 @@ def build_gpt() -> Model:
     outputs = Dense(VOCAB_SIZE)(x)
     model = Model(inputs=inputs, outputs=[outputs, x])
     loss_fn = SparseCategoricalCrossentropy(from_logits=True)
-    optimizer = Adam(learning_rate=0.0005)
+    optimizer = Adam(learning_rate=0.001)
     model.compile(
         optimizer,
         loss=[loss_fn, None]

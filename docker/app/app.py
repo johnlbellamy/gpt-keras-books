@@ -19,7 +19,7 @@ async def generate_text(prompt: Prompt) -> dict:
 def on_startup():
     global model
     model = build_gpt()
-    model.load_weights("/serving/app/bin/gpt-books.weights.h5")
+    model.load_weights("/serving/app/bin/gpt-books.weights-v1.h5")
     model.summary()
 
 

@@ -1,6 +1,8 @@
 # Data
+data/
 data/simplebooks.zip
 data/simplebooks/
+data/aclImdb
 
 # model bins
 src/gpt/bin

@@ -1,5 +1,5 @@
 from gpt import build_gpt
-from data.data_books import Encodings
+from data.data_movies import Encodings
 import json
 import tensorflow as tf
 import pickle
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     encodings.get_training_dataset()
 
     json_obj = json.dumps(encodings.vocab)
-    with open("config/vocab.json", "w") as file:
+    with open("config/book_vocab.json", "w") as file:
         file.write(json_obj)
 
     # with mirrored_strategy.scope():
@@ -30,4 +30,4 @@ if __name__ == '__main__':
     model_json = model.to_json()
     with open("bin/model.json", "w") as json_file:
         json_file.write(model_json)
-    model.save_weights("bin/gpt-books.weights.h5", overwrite=True)
+    model.save_weights("bin/gpt-movies.weights.h5", overwrite=True)
